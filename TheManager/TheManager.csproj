@@ -1,7 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <!--<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>-->
+    <!--We are moving IIS in-process hosting out of the ASP.NET Core 2.1 to give more time to validate the design and implementation. 
+    We will ship IIS in-process hosting as part of the ASP.NET Core 2.2 release.-->
   </PropertyGroup>
 
   <ItemGroup>
