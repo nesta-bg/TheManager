@@ -28,38 +28,28 @@ namespace TheManager
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            //If UseDeveloperExceptionPage detects that any of the middleware registered after it 
+            //in the pipeline produces an exception it is going to take that exception and serve the exception page.
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                DeveloperExceptionPageOptions developerExceptionPageOptions = new DeveloperExceptionPageOptions {
+                    SourceCodeLineCount = 10
+                };
+
+                app.UseDeveloperExceptionPage(developerExceptionPageOptions);
             }
 
-            // UseDefaultFiles middleware must be declared before UseStaticFiles middleware 
-            // Because it doesn't actually serve the default document (index.html). it only changes the request path to point to the default document
-            // app.UseDefaultFiles();
-
-            // If we want to change the default file
-            //DefaultFilesOptions defaultFilesOptions = new DefaultFilesOptions();
-            //defaultFilesOptions.DefaultFileNames.Clear();
-            //defaultFilesOptions.DefaultFileNames.Add("foo.html");
-            //app.UseDefaultFiles(defaultFilesOptions);
-
-            //by default UseStaticFiles middleware only serves static files from wwwroot
-            //app.UseStaticFiles();
-
-            // UseFileServer 
-            // It combines the functionality of UseDefaultFiles, UseStaticFiles and UseDirectoryBrowser middlewares.
-            // app.UseFileServer();
-
-            // If we want to change the default file
-            FileServerOptions fileServerOptions = new FileServerOptions();
-            fileServerOptions.DefaultFilesOptions.DefaultFileNames.Clear();
-            fileServerOptions.DefaultFilesOptions.DefaultFileNames.Add("foo.html");
-            app.UseFileServer(fileServerOptions);
+            app.UseFileServer();
 
             app.Run(async (context) =>
             {
+                throw new Exception("Some error processing the request");
                 await context.Response.WriteAsync("Hello World");
             });
+
+            //https://localhost:44374/   we won't see any error (index.html)
+            //https://localhost:44374/abc.html we will see an error  
+
         }
     }
 }
