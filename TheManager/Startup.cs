@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace TheManager
 {
@@ -27,55 +26,39 @@ namespace TheManager
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILogger<Startup> logger)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            //1. Terminal Middleware (it doesn't call the next middleware in the pipeline)
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello from First Middleware");
-            //});
+            // UseDefaultFiles middleware must be declared before UseStaticFiles middleware 
+            // Because it doesn't actually serve the default document (index.html). it only changes the request path to point to the default document
+            // app.UseDefaultFiles();
 
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello from Second Middleware");
-            //});
+            // If we want to change the default file
+            //DefaultFilesOptions defaultFilesOptions = new DefaultFilesOptions();
+            //defaultFilesOptions.DefaultFileNames.Clear();
+            //defaultFilesOptions.DefaultFileNames.Add("foo.html");
+            //app.UseDefaultFiles(defaultFilesOptions);
 
-            //2. When we want to call the second middleware
-            //app.Use(async (context, next) =>
-            //{
-            //    await context.Response.WriteAsync("Hello from First Middleware");
-            //    await next();
-            //});
+            //by default UseStaticFiles middleware only serves static files from wwwroot
+            //app.UseStaticFiles();
 
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello from Second Middleware");
-            //});
+            // UseFileServer 
+            // It combines the functionality of UseDefaultFiles, UseStaticFiles and UseDirectoryBrowser middlewares.
+            // app.UseFileServer();
 
-            //3. Run the Project in Debug Mode. Look at Output.Debug
-            app.Use(async (context, next) =>
-            {
-                logger.LogInformation("MW1: Incoming Request");
-                await next();
-                logger.LogInformation("MW1: Outhgoing Response");
-            });
-
-            app.Use(async (context, next) =>
-            {
-                logger.LogInformation("MW2: Incoming Request");
-                await next();
-                logger.LogInformation("MW2: Outhgoing Response");
-            });
+            // If we want to change the default file
+            FileServerOptions fileServerOptions = new FileServerOptions();
+            fileServerOptions.DefaultFilesOptions.DefaultFileNames.Clear();
+            fileServerOptions.DefaultFilesOptions.DefaultFileNames.Add("foo.html");
+            app.UseFileServer(fileServerOptions);
 
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("MW3: Request handled and Response produced");
-                logger.LogInformation("MW3: Request handled and Response produced");
+                await context.Response.WriteAsync("Hello World");
             });
         }
     }
