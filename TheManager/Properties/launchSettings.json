@@ -12,7 +12,8 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
+        //It overwrites the value in operating system
+        "ASPNETCORE_ENVIRONMENT": "Staging",
         "MyKey": "Value of MyKey from ENVIRONMENT VARIABLE"
       }
     },

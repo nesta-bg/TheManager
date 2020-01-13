@@ -28,28 +28,19 @@ namespace TheManager
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //If UseDeveloperExceptionPage detects that any of the middleware registered after it 
-            //in the pipeline produces an exception it is going to take that exception and serve the exception page.
+            //for custom environments env.IsEnvironment("UAT")
             if (env.IsDevelopment())
             {
-                DeveloperExceptionPageOptions developerExceptionPageOptions = new DeveloperExceptionPageOptions {
-                    SourceCodeLineCount = 10
-                };
-
-                app.UseDeveloperExceptionPage(developerExceptionPageOptions);
+                app.UseDeveloperExceptionPage();
             }
 
-            app.UseFileServer();
+            app.UseStaticFiles();
 
             app.Run(async (context) =>
             {
-                throw new Exception("Some error processing the request");
-                await context.Response.WriteAsync("Hello World");
+                // env.EnvironmentName - from launchSettings.json (Default is Production) 
+                await context.Response.WriteAsync("Hosting Environment:" + env.EnvironmentName);
             });
-
-            //https://localhost:44374/   we won't see any error (index.html)
-            //https://localhost:44374/abc.html we will see an error  
-
         }
     }
 }
