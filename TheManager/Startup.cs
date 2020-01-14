@@ -23,12 +23,12 @@ namespace TheManager
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //for custom environments env.IsEnvironment("UAT")
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -36,11 +36,15 @@ namespace TheManager
 
             app.UseStaticFiles();
 
-            app.Run(async (context) =>
-            {
-                // env.EnvironmentName - from launchSettings.json (Default is Production) 
-                await context.Response.WriteAsync("Hosting Environment:" + env.EnvironmentName);
-            });
+            // add UseMvc after the UseStaticFiles (if the request is for static files UseMvc is not executed.)
+            // {controller=Home}/{action=Index}/{id?}
+            // /abc/index (it doesn't exist) app.Run is activated
+            app.UseMvcWithDefaultRoute();
+
+            //app.Run(async (context) =>
+            //{
+            //    await context.Response.WriteAsync("Hello World!");
+            //});
         }
     }
 }
