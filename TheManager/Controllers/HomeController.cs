@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace TheManager.Controllers
 {
-    public class HomeController
+    public class HomeController : Controller
     {
-        public string Index() {
-            return "Return from MVC";
+        public JsonResult Index() {
+            return Json(new { id = 1, name = "Nenad" }); 
         }
     }
 }
