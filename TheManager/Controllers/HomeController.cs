@@ -24,8 +24,8 @@ namespace TheManager.Controllers
         public ViewResult Details()
         {
             Employee model = _employeeRepository.GetEmployee(1);
-            ViewData["Employee"] = model;
-            ViewData["PageTitle"] = "Employee Details";
+            ViewBag.Employee = model;
+            ViewBag.PageTitle = "Employee Details";
             return View();
         }
     }
