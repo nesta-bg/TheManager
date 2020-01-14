@@ -1,38 +1,35 @@
 ﻿@model IEnumerable<TheManager.Models.Employee>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
-    <table>
-        <thead>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Employee List";
+}
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Department</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Department</th>
+                <td>
+                    @employee.Id
+                </td>
+                <td>
+                    @employee.Name
+                </td>
+                <td>
+                    @employee.Department
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var employee in Model)
-            {
-                <tr>
-                    <td>
-                        @employee.Id
-                    </td>
-                    <td>
-                        @employee.Name
-                    </td>
-                    <td>
-                        @employee.Department
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</body>
-</html>
+        }
+    </tbody>
+</table>
+
 
 
