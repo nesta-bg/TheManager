@@ -24,14 +24,9 @@ namespace TheManager.Controllers
         public ViewResult Details()
         {
             Employee model = _employeeRepository.GetEmployee(1);
-            //return View("Test");
-
-            //return View("MyViews/Test.cshtml");
-            //return View("/MyViews/Test.cshtml");
-            //return View("~/MyViews/Test.cshtml");
-
-            //return View("../Test/Update");
-            return View("../../MyViews/Test");
+            ViewData["Employee"] = model;
+            ViewData["PageTitle"] = "Employee Details";
+            return View();
         }
     }
 }

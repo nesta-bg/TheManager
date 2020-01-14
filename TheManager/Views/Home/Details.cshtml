@@ -5,6 +5,20 @@
     <title></title>
 </head>
 <body>
-    <h1>Details.cshtml from Views/Home folder</h1>
+    <h3>@ViewData["PageTitle"]</h3>
+
+    @{
+        var employee = ViewData["Employee"] as TheManager.Models.Employee;
+    }
+
+    <div>
+        Name: @employee.Name
+    </div>
+    <div>
+        Email: @employee.Email
+    </div>
+    <div>
+        Department: @employee.Department
+    </div>
 </body>
 </html>
