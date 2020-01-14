@@ -21,19 +21,17 @@ namespace TheManager.Controllers
             return _employeeRepository.GetEmployee(1).Name;
         }
 
-        //public JsonResult Details()
-        //{
-        //    Employee model = _employeeRepository.GetEmployee(1);
-        //    return Json(model);
-        //}
-
-        //Accept: application/xml
-        //public ObjectResult Details()
         public ViewResult Details()
         {
             Employee model = _employeeRepository.GetEmployee(1);
-            //return new ObjectResult(model);
-            return View(model);
+            //return View("Test");
+
+            //return View("MyViews/Test.cshtml");
+            //return View("/MyViews/Test.cshtml");
+            //return View("~/MyViews/Test.cshtml");
+
+            //return View("../Test/Update");
+            return View("../../MyViews/Test");
         }
     }
 }
