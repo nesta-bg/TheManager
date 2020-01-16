@@ -43,7 +43,13 @@ namespace TheManager
             // add UseMvc after the UseStaticFiles (if the request is for static files UseMvc is not executed.)
             // {controller=Home}/{action=Index}/{id?}
             // /abc/index (it doesn't exist) app.Run is activated
-            app.UseMvcWithDefaultRoute();
+            //app.UseMvcWithDefaultRoute();
+
+            //app.UseMvc();
+
+            app.UseMvc(routes => {
+                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            });
 
             //app.Run(async (context) =>
             //{
