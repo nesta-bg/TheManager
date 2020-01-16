@@ -45,11 +45,11 @@ namespace TheManager
             // /abc/index (it doesn't exist) app.Run is activated
             //app.UseMvcWithDefaultRoute();
 
-            //app.UseMvc();
+            app.UseMvc();
 
-            app.UseMvc(routes => {
-                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
-            });
+            //app.UseMvc(routes => {
+            //    routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            //});
 
             //app.Run(async (context) =>
             //{
