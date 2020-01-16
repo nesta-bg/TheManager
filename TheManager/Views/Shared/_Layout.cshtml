@@ -3,15 +3,14 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <div>
+    <div class="container">
         @RenderBody()
     </div>
-    @*@RenderSection("Scripts")*@   @*mandatory*@
-    @*@RenderSection("Scripts", required: false)*@  @*optional*@
-
     @if (IsSectionDefined("Scripts"))
     {
         @RenderSection("Scripts", required: false)

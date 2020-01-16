@@ -1,21 +1,31 @@
 ﻿@model HomeDetailsViewModel
 
 @{
-    //Layout = null;
-    //Layout = "_Layout2";
     ViewBag.Title = "Employee Details";
 }
 
-<h3>@Model.PageTitle</h3>
+<div class="row justify-content-center m-3">
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-header">
+                <h1>@Model.Employee.Name</h1>
+            </div>
 
-<div>
-    Name: @Model.Employee.Name
-</div>
-<div>
-    Email: @Model.Employee.Email
-</div>
-<div>
-    Department: @Model.Employee.Department
+            <div class="card-body text-center">
+                <img class="card-img-top" src="~/images/noimage.png" />
+
+                <h4>Employee ID : @Model.Employee.Id</h4>
+                <h4>Email : @Model.Employee.Email</h4>
+                <h4>Department : @Model.Employee.Department</h4>
+
+            </div>
+            <div class="card-footer text-center">
+                <a href="#" class="btn btn-primary">Back</a>
+                <a href="#" class="btn btn-primary">Edit</a>
+                <a href="#" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
