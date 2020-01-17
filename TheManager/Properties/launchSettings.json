@@ -13,7 +13,7 @@
       "launchBrowser": true,
       "environmentVariables": {
         //It overwrites the value in operating system
-        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_ENVIRONMENT": "Staging",
         "MyKey": "Value of MyKey from ENVIRONMENT VARIABLE"
       }
     },
