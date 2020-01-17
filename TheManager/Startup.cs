@@ -49,7 +49,7 @@ namespace TheManager
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute("default", "manager/{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
 
             //app.Run(async (context) =>
