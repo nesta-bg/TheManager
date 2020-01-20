@@ -1,4 +1,5 @@
 ﻿@model Employee
+@inject IEmployeeRepository _empRepository
 
 @{
     ViewBag.Title = "Create Employee";
@@ -37,6 +38,12 @@
     <div class="form-group row">
         <div class="col-sm-10">
             <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-10">
+            Total Employees Count = @_empRepository.GetAllEmployees().Count().ToString()
         </div>
     </div>
 </form>

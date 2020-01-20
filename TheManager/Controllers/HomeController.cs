@@ -19,7 +19,7 @@ namespace TheManager.Controllers
 
         public ViewResult Index()
         {
-            var model = _employeeRepository.GetAllEmployee();
+            var model = _employeeRepository.GetAllEmployees();
             return View(model);
         }
 
@@ -54,7 +54,7 @@ namespace TheManager.Controllers
         {
             if (ModelState.IsValid) {
                 Employee newEmployee = _employeeRepository.Add(employee);
-                return RedirectToAction("details", new { id = newEmployee.Id });
+                //return RedirectToAction("details", new { id = newEmployee.Id });
             }
 
             return View();
