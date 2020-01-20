@@ -35,8 +35,25 @@ namespace TheManager.Controllers
             return View(homeDetailsViewModel);
         }
 
+        //https://localhost:44374/home/details/2
+        //https://localhost:44374/home/details/2?name=manager
+        //https://localhost:44374/home/details/2?name=manager&id=5
+        //https://localhost:44374/home/details?name=manager&id=5
+        //public string Details(int? id, string name)
+        //{
+        //    return "id = " + id.Value.ToString() + " name = " + name; 
+        //}
+
+        [HttpGet]
         public ViewResult Create() {
             return View();
+        }
+
+        [HttpPost]
+        public RedirectToActionResult Create(Employee employee)
+        {
+            Employee newEmployee = _employeeRepository.Add(employee);
+            return RedirectToAction("details", new { id = newEmployee.Id });
         }
     }
 }
