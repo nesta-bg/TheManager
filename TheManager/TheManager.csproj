@@ -8,6 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200124111155_AddPhotoPathColumn.cs" />
+    <Compile Remove="Migrations\20200124111155_AddPhotoPathColumn.Designer.cs" />
+    <Compile Remove="Migrations\20200124114203_AddPhotoPathColumn.cs" />
+    <Compile Remove="Migrations\20200124114203_AddPhotoPathColumn.Designer.cs" />
+    <Compile Remove="Migrations\20200124115659_AddPhotoPathColumnOnly.cs" />
+    <Compile Remove="Migrations\20200124115659_AddPhotoPathColumnOnly.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
   </ItemGroup>
