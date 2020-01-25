@@ -33,7 +33,7 @@ namespace TheManager.Controllers
             HomeDetailsViewModel homeDetailsViewModel = new HomeDetailsViewModel
             {
                 // If "id" is null use 1, else use the value passed from the route
-                Employee = _employeeRepository.GetEmployee(id??1),
+                Employee = _employeeRepository.GetEmployee(id ?? 1),
                 PageTitle = "Employee Details"
             };
 
@@ -50,25 +50,26 @@ namespace TheManager.Controllers
         //}
 
         [HttpGet]
-        public ViewResult Create() {
+        public ViewResult Create()
+        {
             return View();
         }
 
         [HttpPost]
         public IActionResult Create(EmployeeCreateViewModel model)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 string uniqueFileName = null;
 
-                if (model.Photos != null && model.Photos.Count > 0)
+                if (model.Photo != null)
                 {
-                    foreach (IFormFile photo in model.Photos)
-                    {
-                        string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
-                        uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
-                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                        photo.CopyTo(new FileStream(filePath, FileMode.Create));
-                    }
+
+                    string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+
                 }
 
                 Employee newEmployee = new Employee
@@ -84,6 +85,21 @@ namespace TheManager.Controllers
             }
 
             return View();
+        }
+
+        [HttpGet]
+        public ViewResult Edit(int id)
+        {
+            Employee employee = _employeeRepository.GetEmployee(id);
+            EmployeeEditViewModel employeeEditViewModel = new EmployeeEditViewModel
+            {
+                Id = employee.Id,
+                Name = employee.Name,
+                Email = employee.Email,
+                Department = employee.Department,
+                ExistingPhotoPath = employee.PhotoPath
+            };
+            return View(employeeEditViewModel);
         }
     }
 }
