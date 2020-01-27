@@ -30,24 +30,24 @@ namespace TheManager.Controllers
 
         public ViewResult Details(int? id)
         {
+            // If "id" is null use 1, else use the value passed from the route
+            // _employeeRepository.GetEmployee(id ?? 1)
+            Employee employee = _employeeRepository.GetEmployee(id.Value);
+
+            if (employee == null)
+            {
+                Response.StatusCode = 404;
+                return View("EmployeeNotFound", id.Value);
+            }
+
             HomeDetailsViewModel homeDetailsViewModel = new HomeDetailsViewModel
             {
-                // If "id" is null use 1, else use the value passed from the route
-                Employee = _employeeRepository.GetEmployee(id ?? 1),
+                Employee = employee,               
                 PageTitle = "Employee Details"
             };
 
             return View(homeDetailsViewModel);
         }
-
-        //https://localhost:44374/home/details/2
-        //https://localhost:44374/home/details/2?name=manager
-        //https://localhost:44374/home/details/2?name=manager&id=5
-        //https://localhost:44374/home/details?name=manager&id=5
-        //public string Details(int? id, string name)
-        //{
-        //    return "id = " + id.Value.ToString() + " name = " + name; 
-        //}
 
         [HttpGet]
         public ViewResult Create()
