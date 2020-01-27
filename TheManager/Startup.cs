@@ -47,6 +47,8 @@ namespace TheManager
             }
             else
             {
+                app.UseExceptionHandler("/Error");
+
                 //Status Code: 404; Not Found  
                 //app.UseStatusCodePages();
 

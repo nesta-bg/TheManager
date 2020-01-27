@@ -30,6 +30,8 @@ namespace TheManager.Controllers
 
         public ViewResult Details(int? id)
         {
+            throw new Exception("Error in Details View");
+
             // If "id" is null use 1, else use the value passed from the route
             // _employeeRepository.GetEmployee(id ?? 1)
             Employee employee = _employeeRepository.GetEmployee(id.Value);
