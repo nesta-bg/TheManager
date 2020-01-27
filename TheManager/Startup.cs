@@ -45,25 +45,22 @@ namespace TheManager
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                //Status Code: 404; Not Found  
+                //app.UseStatusCodePages();
+
+                app.UseStatusCodePagesWithRedirects("/Error/{0}");
+                //app.UseStatusCodePagesWithReExecute("/Error/{0}");
+            }
 
             app.UseStaticFiles();
-
-            // add UseMvc after the UseStaticFiles (if the request is for static files UseMvc is not executed.)
-            // {controller=Home}/{action=Index}/{id?}
-            // /abc/index (it doesn't exist) app.Run is activated
-            //app.UseMvcWithDefaultRoute();
-
-            //app.UseMvc();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello World!");
-            //});
         }
     }
 }
