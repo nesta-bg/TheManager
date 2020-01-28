@@ -16,6 +16,7 @@
         "MyKey": "Value of MyKey from ENVIRONMENT VARIABLE"
       }
     },
+    //when we run the project from command line
     "TheManager": {
       "commandName": "Project",
       "launchBrowser": true,
