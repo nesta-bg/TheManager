@@ -5,11 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace TheManager.Controllers
 {
     public class ErrorController : Controller
     {
+        private readonly ILogger<ErrorController> logger;
+
+        //VS Output Window TheManager.Controllers.ErrorController:Error:
+        public ErrorController(ILogger<ErrorController> logger)
+        {
+            this.logger = logger;
+        }
+
         [Route("Error/{statusCode}")]
         public IActionResult HttpStatusCodeHandler(int statusCode)
         {
@@ -19,8 +28,11 @@ namespace TheManager.Controllers
             {
                 case 404:
                     ViewBag.ErrorMessage = "Sorry, the resource you requested could not be found";
-                    ViewBag.Path = statusCodeResult.OriginalPath;
-                    ViewBag.QS = statusCodeResult.OriginalQueryString;
+
+                    //TheManager.Controllers.ErrorController:Warning: 404 error occured. Path = /foo/bar and QueryString = ?email=nenad@manager.com&aaa=bbb
+                    logger.LogWarning($"404 error occured. Path = " +
+                        $"{statusCodeResult.OriginalPath} and QueryString = " +
+                        $"{statusCodeResult.OriginalQueryString}");
                     break;
             }
 
@@ -35,10 +47,8 @@ namespace TheManager.Controllers
             var exceptionHandlerPathFeature =
                     HttpContext.Features.Get<IExceptionHandlerPathFeature>();
 
-            ViewBag.ExceptionPath = exceptionHandlerPathFeature.Path;
-            ViewBag.ExceptionMessage = exceptionHandlerPathFeature.Error.Message;
-            ViewBag.StackTrace = exceptionHandlerPathFeature.Error.StackTrace;
-
+            logger.LogError($"The path {exceptionHandlerPathFeature.Path} " + 
+                $"threw an exception {exceptionHandlerPathFeature.Error}");
             return View("Error");
         }
     }
