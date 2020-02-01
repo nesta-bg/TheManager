@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,8 @@ using TheManager.ViewModels;
 
 namespace TheManager.Controllers
 {
+    //[AllowAnonymous] on control and [Authorize] on actions doesn't work properly
+    //[Authorize]
     public class HomeController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
@@ -28,12 +31,14 @@ namespace TheManager.Controllers
             this.logger = logger;
         }
 
+        [AllowAnonymous]
         public ViewResult Index()
         {
             var model = _employeeRepository.GetAllEmployees();
             return View(model);
         }
 
+        [AllowAnonymous]
         public ViewResult Details(int? id)
         {
             //throw new Exception("Error in Details View");
@@ -64,12 +69,14 @@ namespace TheManager.Controllers
             return View(homeDetailsViewModel);
         }
 
+        //[Authorize]
         [HttpGet]
         public ViewResult Create()
         {
             return View();
         }
 
+        //[Authorize]
         [HttpPost]
         public IActionResult Create(EmployeeCreateViewModel model)
         {
@@ -92,6 +99,7 @@ namespace TheManager.Controllers
             return View();
         }
 
+        //[Authorize]
         [HttpGet]
         public ViewResult Edit(int id)
         {
@@ -107,6 +115,7 @@ namespace TheManager.Controllers
             return View(employeeEditViewModel);
         }
 
+        //[Authorize]
         [HttpPost]
         public IActionResult Edit(EmployeeEditViewModel model)
         {
