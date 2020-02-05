@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,10 @@ using TheManager.ViewModels;
 
 namespace TheManager.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin, User")]
+    //[Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "User")]
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
