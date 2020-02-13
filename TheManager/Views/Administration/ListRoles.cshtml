@@ -20,13 +20,29 @@
             <div class="card-body">
                 <h5 class="card-title">@role.Name</h5>
             </div>
-            <div class="card-footer">
-                <a asp-controller="Administration" asp-action="EditRole"
-                   asp-route-id="@role.Id" class="btn btn-primary">
-                    Edit
-                </a>
-                <a href="#" class="btn btn-danger">Delete</a>
-            </div>
+            @*Deleting data using a GET request is not recommended.*@
+            <form asp-action="DeleteRole" asp-route-id="@role.Id" method="post">
+                <a asp-action="EditRole" asp-controller="Administration"
+                   asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
+                @*First Way*@
+                @*<button type="submit" class="btn btn-danger"
+                            onclick="return confirm('are you sure you want to delete role : @role.Name')">
+                        Delete
+                    </button>*@
+
+                @*Second Way*@
+                <span id="confirmDeleteSpan_@role.Id" style="display:none">
+                    <span>Are you sure you want to delete?</span>
+                    <button type="submit" class="btn btn-danger">Yes</button>
+                    <a href="#" class="btn btn-primary"
+                       onclick="confirmDelete('@role.Id', false)">No</a>
+                </span>
+
+                <span id="deleteSpan_@role.Id">
+                    <a href="#" class="btn btn-danger"
+                       onclick="confirmDelete('@role.Id', true)">Delete</a>
+                </span>
+            </form>
         </div>
     }
 }
@@ -46,4 +62,8 @@ else
             </a>
         </div>
     </div>
+}
+
+@section Scripts {
+    <script src="~/js/CustomScript.js"></script>
 }
