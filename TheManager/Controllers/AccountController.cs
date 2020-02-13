@@ -49,6 +49,11 @@ namespace TheManager.Controllers
 
                 if (result.Succeeded)
                 {
+                    if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        return RedirectToAction("ListUsers", "Administration");
+                    }
+
                     //session cookie (is immediately lose after the browser window is closed) or persistent cookie (stay on the client machine after the browser window is closed)
                     await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("index", "home");
