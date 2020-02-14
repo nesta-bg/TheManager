@@ -21,6 +21,19 @@
                     </label>
                 </div>
             }
+
+            @*@foreach (var role in Model)
+                {
+                    <div class="form-check m-1">
+                        <input type="hidden" asp-for="@role.RoleId" />
+                        <input type="hidden" asp-for="@role.RoleName" />
+                        <input asp-for="@role.IsSelected" class="form-check-input" />
+                        <label class="form-check-label" asp-for="@role.IsSelected">
+                            @role.RoleName
+                        </label>
+                    </div>
+                }*@
+
             <div asp-validation-summary="All" class="text-danger"></div>
         </div>
         <div class="card-footer">
