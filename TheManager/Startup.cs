@@ -55,6 +55,22 @@ namespace TheManager
             }).AddXmlSerializerFormatters();
             //services.AddMvcCore();
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("DeleteRolePolicy",
+                    policy => policy.RequireClaim("Delete Role"));
+            });
+
+            //add multiple claims to a given policy
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("DeleteRolePolicy",
+            //        policy => policy.RequireClaim("Delete Role")
+            //                        .RequireClaim("Create Role")
+
+            //    );
+            //});
+
             //services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
             //services.AddScoped<IEmployeeRepository, MockEmployeeRepository>();
             //services.AddTransient<IEmployeeRepository, MockEmployeeRepository>();
