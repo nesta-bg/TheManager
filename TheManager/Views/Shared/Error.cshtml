@@ -1,6 +1,14 @@
-﻿<h3>
-    An occured while processing your request. The support
-    team is notified and we are working on the fix
-</h3>
-<h5>Please contact us on support@manager.com</h5>
+﻿@if (ViewBag.ErrorTitle == null)
+{
+    <h3>
+        An error occured while processing your request. The support
+        team is notified and we are working on the fix
+    </h3>
+    <h5>Please contact us on support@manager.com</h5>
+}
+else
+{
+    <h1 class="text-danger">@ViewBag.ErrorTitle</h1>
+    <h6 class="text-danger">@ViewBag.ErrorMessage</h6>
+}
 
