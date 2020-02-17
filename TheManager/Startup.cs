@@ -59,6 +59,9 @@ namespace TheManager
             {
                 options.AddPolicy("DeleteRolePolicy",
                     policy => policy.RequireClaim("Delete Role"));
+
+                options.AddPolicy("EditRolePolicy", 
+                    policy => policy.RequireClaim("Edit Role"));
             });
 
             //add multiple claims to a given policy
