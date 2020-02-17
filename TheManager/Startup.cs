@@ -55,6 +55,11 @@ namespace TheManager
             }).AddXmlSerializerFormatters();
             //services.AddMvcCore();
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = new PathString("/Administration/AccessDenied");
+            });
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("DeleteRolePolicy",
