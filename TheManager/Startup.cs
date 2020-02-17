@@ -65,9 +65,17 @@ namespace TheManager
                 options.AddPolicy("DeleteRolePolicy",
                     policy => policy.RequireClaim("Delete Role"));
 
-                options.AddPolicy("EditRolePolicy",
-                    //ClaimType comparison is case in-sensitive, ClaimValue comparison is case sensitive
-                    policy => policy.RequireClaim("Edit Role", "true"));
+            //options.AddPolicy("EditRolePolicy",
+            //    policy => policy.RequireClaim("Edit Role", "true")
+            //                    .RequireRole("Admin")
+            //                    .RequireRole("Super Admin"));
+
+                options.AddPolicy("EditRolePolicy", 
+                    policy => policy.RequireAssertion(context =>
+                        context.User.IsInRole("Admin") &&
+                        context.User.HasClaim(claim => claim.Type == "Edit Role" && claim.Value == "true") ||
+                        context.User.IsInRole("Super Admin")
+                    ));                   
             });
 
             //add multiple claims to a given policy

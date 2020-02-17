@@ -13,7 +13,7 @@ using TheManager.ViewModels;
 
 namespace TheManager.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     //[Authorize(Roles = "Admin, User")]
     //[Authorize(Roles = "Admin")]
     //[Authorize(Roles = "User")]
