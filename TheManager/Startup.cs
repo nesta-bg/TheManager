@@ -82,6 +82,8 @@ namespace TheManager
                     policy => policy.AddRequirements(new ManageAdminRolesAndClaimsRequirement())
                 );
 
+                //options.InvokeHandlersAfterFailure = false;
+
             });
 
             
