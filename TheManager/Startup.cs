@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TheManager.Models;
+using TheManager.Security;
 
 namespace TheManager
 {
@@ -65,34 +66,42 @@ namespace TheManager
                 options.AddPolicy("DeleteRolePolicy",
                     policy => policy.RequireClaim("Delete Role"));
 
-            //options.AddPolicy("EditRolePolicy",
-            //    policy => policy.RequireClaim("Edit Role", "true")
-            //                    .RequireRole("Admin")
-            //                    .RequireRole("Super Admin"));
+                //options.AddPolicy("EditRolePolicy",
+                //    policy => policy.RequireClaim("Edit Role", "true")
+                //                    .RequireRole("Admin")
+                //                    .RequireRole("Super Admin"));
+
+                //options.AddPolicy("EditRolePolicy", 
+                //    policy => policy.RequireAssertion(context =>
+                //        context.User.IsInRole("Admin") &&
+                //        context.User.HasClaim(claim => claim.Type == "Edit Role" && claim.Value == "true") ||
+                //        context.User.IsInRole("Super Admin")
+                //    ));
 
                 options.AddPolicy("EditRolePolicy", 
-                    policy => policy.RequireAssertion(context =>
-                        context.User.IsInRole("Admin") &&
-                        context.User.HasClaim(claim => claim.Type == "Edit Role" && claim.Value == "true") ||
-                        context.User.IsInRole("Super Admin")
-                    ));                   
+                    policy => policy.AddRequirements(new ManageAdminRolesAndClaimsRequirement())
+                );
+
             });
 
-            //add multiple claims to a given policy
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("DeleteRolePolicy",
-            //        policy => policy.RequireClaim("Delete Role")
-            //                        .RequireClaim("Create Role")
+            
+        //add multiple claims to a given policy
+        //services.AddAuthorization(options =>
+        //{
+        //    options.AddPolicy("DeleteRolePolicy",
+        //        policy => policy.RequireClaim("Delete Role")
+        //                        .RequireClaim("Create Role")
 
-            //    );
-            //});
+        //    );
+        //});
 
-            //services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
-            //services.AddScoped<IEmployeeRepository, MockEmployeeRepository>();
-            //services.AddTransient<IEmployeeRepository, MockEmployeeRepository>();
+        //services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
+        //services.AddScoped<IEmployeeRepository, MockEmployeeRepository>();
+        //services.AddTransient<IEmployeeRepository, MockEmployeeRepository>();
 
             services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
+
+            services.AddSingleton<IAuthorizationHandler, CanEditOnlyOtherAdminRolesAndClaimsHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
