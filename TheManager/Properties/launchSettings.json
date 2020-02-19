@@ -1,9 +1,9 @@
-﻿{
+{
   "iisSettings": {
-    "windowsAuthentication": false, 
-    "anonymousAuthentication": true, 
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:50639",
+      "applicationUrl": "https://localhost:44374/",
       "sslPort": 44374
     }
   },
@@ -12,18 +12,17 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "MyKey": "Value of MyKey from ENVIRONMENT VARIABLE"
+        "MyKey": "Value of MyKey from ENVIRONMENT VARIABLE",
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    //when we run the project from command line
     "TheManager": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }
   }
 }
