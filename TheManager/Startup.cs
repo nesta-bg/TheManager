@@ -62,6 +62,7 @@ namespace TheManager
             {
                 options.ClientId = "XXXXX";
                 options.ClientSecret = "YYYYY";
+                //options.CallbackPath = "";
             });
 
             services.ConfigureApplicationCookie(options =>
