@@ -63,7 +63,12 @@ namespace TheManager
                 options.ClientId = "XXXXX";
                 options.ClientSecret = "YYYYY";
                 //options.CallbackPath = "";
-            });
+            })
+                .AddFacebook(options =>
+                {
+                    options.AppId = "XYXYXY";
+                    options.AppSecret = "YXYXYX";
+                });
 
             services.ConfigureApplicationCookie(options =>
             {
