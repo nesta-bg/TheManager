@@ -56,6 +56,14 @@ namespace TheManager
             }).AddXmlSerializerFormatters();
             //services.AddMvcCore();
 
+            //Microsoft.AspNetCore.Authentication.Google in NuGet
+            services.AddAuthentication()
+                .AddGoogle(options =>
+            {
+                options.ClientId = "XXXXX";
+                options.ClientSecret = "YYYYY";
+            });
+
             services.ConfigureApplicationCookie(options =>
             {
                 options.AccessDeniedPath = new PathString("/Administration/AccessDenied");
