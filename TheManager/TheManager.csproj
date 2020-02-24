@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>cb2051df-b783-4884-8d7f-6698fdd1e42c</UserSecretsId>
     <!--<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>-->
     <!--We are moving IIS in-process hosting out of the ASP.NET Core 2.1 to give more time to validate the design and implementation. 
     We will ship IIS in-process hosting as part of the ASP.NET Core 2.2 release.-->
