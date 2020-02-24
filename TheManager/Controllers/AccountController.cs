@@ -237,6 +237,20 @@ namespace TheManager.Controllers
                         };
 
                         await userManager.CreateAsync(user);
+
+                        // After a local user account is created, generate and log the
+                        // email confirmation link
+                        var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                        var confirmationLink = Url.Action("ConfirmEmail", "Account",
+                                        new { userId = user.Id, token = token }, Request.Scheme);
+
+                        logger.Log(LogLevel.Warning, confirmationLink);
+
+                        ViewBag.ErrorTitle = "Registration successful";
+                        ViewBag.ErrorMessage = "Before you can Login, please confirm your " +
+                            "email, by clicking on the confirmation link we have emailed you";
+                        return View("Error");
                     }
 
                     // Add a login (i.e insert a row for the user in AspNetUserLogins table)
