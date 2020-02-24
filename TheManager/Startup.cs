@@ -48,7 +48,8 @@ namespace TheManager
 
                 options.SignIn.RequireConfirmedEmail = true;
             })
-                .AddEntityFrameworkStores<AppDbContext>();
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddMvc(config => {
                 var policy = new AuthorizationPolicyBuilder()
