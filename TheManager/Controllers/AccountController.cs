@@ -95,10 +95,19 @@ namespace TheManager.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            model.ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
-                //PasswordSignInAsync - Go To Definition
-                //session cookie (is immediately lose after the browser window is closed) or persistent cookie (stay on the client machine after the browser window is closed)
+                var user = await userManager.FindByEmailAsync(model.Email);
+
+                //CheckPasswordAsync to avoid account enumeration and brute force attacks
+                if (user != null && !user.EmailConfirmed && (await userManager.CheckPasswordAsync(user, model.Password)))
+                {
+                    ModelState.AddModelError(string.Empty, "Email not confirmed yet");
+                    return View(model);
+                }
+
                 var result = await signInManager.PasswordSignInAsync(
                     model.Email, model.Password, model.RememberMe, false);
 
@@ -106,7 +115,6 @@ namespace TheManager.Controllers
                 {
                     if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     {
-                        //return LocalRedirect(returnUrl);
                         return Redirect(returnUrl);
                     }
                     else
@@ -178,6 +186,20 @@ namespace TheManager.Controllers
                 return View("Login", loginViewModel);
             }
 
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            ApplicationUser user = null;
+
+            if (email != null)
+            {
+                user = await userManager.FindByEmailAsync(email);
+
+                if (user != null && !user.EmailConfirmed)
+                {
+                    ModelState.AddModelError(string.Empty, "Email not confirmed yet");
+                    return View("Login", loginViewModel);
+                }
+            }
+
             // If the user already has a login (i.e if there is a record in AspNetUserLogins
             // table) then sign-in the user with this external login provider
             var signInResult = await signInManager.ExternalLoginSignInAsync(info.LoginProvider,
@@ -191,14 +213,8 @@ namespace TheManager.Controllers
             // a local account
             else
             {
-                // Get the email claim value
-                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-
                 if (email != null)
                 {
-                    // Create a new user without password if we do not have a user already
-                    var user = await userManager.FindByEmailAsync(email);
-
                     if (user == null)
                     {
                         user = new ApplicationUser
