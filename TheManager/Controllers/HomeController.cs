@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TheManager.Models;
+using TheManager.Security;
 using TheManager.ViewModels;
 
 namespace TheManager.Controllers
@@ -20,26 +22,38 @@ namespace TheManager.Controllers
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly ILogger logger;
+        // It is through IDataProtector interface Protect and Unprotect methods,
+        // we encrypt and decrypt respectively
+        // https://github.com/aspnet/Identity/blob/release/2.1/src/Identity/DataProtectionTokenProvider.cs
+        private readonly IDataProtector protector;
 
         public HomeController(
             IEmployeeRepository employeeRepository, 
             IHostingEnvironment hostingEnvironment,
-            ILogger<HomeController> logger)
+            ILogger<HomeController> logger,
+            IDataProtectionProvider dataProtectionProvider,
+            DataProtectionPurposeStrings dataProtectionPurposeStrings)
         {
             _employeeRepository = employeeRepository;
             this.hostingEnvironment = hostingEnvironment;
             this.logger = logger;
+            this.protector = dataProtectionProvider.CreateProtector(
+                dataProtectionPurposeStrings.EmployeeIdRouteValue);
         }
 
         [AllowAnonymous]
         public ViewResult Index()
         {
-            var model = _employeeRepository.GetAllEmployees();
+            var model = _employeeRepository.GetAllEmployees()
+                            .Select(e => {
+                                e.EncryptedId = protector.Protect(e.Id.ToString());
+                                return e;
+                            });
             return View(model);
         }
 
         [AllowAnonymous]
-        public ViewResult Details(int? id)
+        public ViewResult Details(string id)
         {
             //throw new Exception("Error in Details View");
             logger.LogTrace("Trace Log");
@@ -49,15 +63,15 @@ namespace TheManager.Controllers
             logger.LogError("Error Log");
             logger.LogCritical("Critical Log");
 
+            
+            int employeeId = Convert.ToInt32(protector.Unprotect(id));
 
-            // If "id" is null use 1, else use the value passed from the route
-            // _employeeRepository.GetEmployee(id ?? 1)
-            Employee employee = _employeeRepository.GetEmployee(id.Value);
+            Employee employee = _employeeRepository.GetEmployee(employeeId);
 
             if (employee == null)
             {
                 Response.StatusCode = 404;
-                return View("EmployeeNotFound", id.Value);
+                return View("EmployeeNotFound", employeeId);
             }
 
             HomeDetailsViewModel homeDetailsViewModel = new HomeDetailsViewModel
